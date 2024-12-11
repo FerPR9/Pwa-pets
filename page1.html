@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrar Mascota</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body>
+  <header>
+    <h1>Registrar Mascota</h1>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="page2.html">Ver Mascotas</a>
+      <a href="page3.html">Tomar foto</a>
+      <a href="page4.html">Notificaciones</a>
+    </nav>
+  </header>
+  <main>
+    <form id="petForm">
+      <label for="name">Nombre:</label>
+      <input type="text" id="name" required>
+
+      <label for="species">Especie:</label>
+      <input type="text" id="species" required>
+
+      <label for="description">Descripción:</label>
+      <textarea id="description" required></textarea>
+
+      <button type="submit">Registrar</button>
+    </form>
+  </main>
+  <script src="js/db.js"></script>
+  <script>
+    const form = document.getElementById('petForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const pet = {
+        nombre: document.getElementById('name').value,
+        especie: document.getElementById('species').value,
+        descripcion: document.getElementById('description').value,
+      };
+      addPet(pet);  // Función definida en db.js para agregar mascotas
+      alert('Mascota registrada con éxito');
+      form.reset();
+    });
+  </script>
+</body>
+</html>

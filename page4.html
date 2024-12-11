@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página 4</title>
+  <link rel="stylesheet" href="/styles/style.css">
+  <style>
+    #pet-image {
+      max-width: 300px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Página 4: Notificaciones Push</h1>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="page1.html">Registrar Mascota</a>
+      <a href="page2.html">Ver Mascotas</a>
+      <a href="page4.html">Notificaciones</a>
+    </nav>
+  </header>
+  <main>
+    <p>En esta página, puedes activar o desactivar las notificaciones push para recibir alertas cuando haya nuevos
+      eventos importantes en la aplicación.</p>
+    <button id="enable-notifications">Te gustan las mascotas, presiona el botón</button>
+    <button id="disable-notifications" disabled>No me gustan las mascotas, presiona el botón</button>
+    <div id="pet-love-question" style="display: none;">
+      <p>¿Te gustan las mascotas?</p>
+      <button id="yes-love-pets">Sí, me encantan las mascotas</button>
+      <button id="no-love-pets">No mucho</button>
+    </div>
+    <div id="pet-image-container" style="display: none;">
+      <img id="pet-image" src="" alt="Imagen de mascota">
+    </div>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="page1.html">Página 1</a>
+      <a href="page2.html">Página 2</a>
+      <a href="page3.html">Página 3</a>
+    </nav>
+  </main>
+  <script src="/js/app.js"></script>
+  <script>
+    let notificationsEnabled = false;
+
+    // Función para activar las notificaciones
+    document.getElementById('enable-notifications').addEventListener('click', function () {
+      if (Notification.permission !== "granted") {
+        Notification.requestPermission().then(function (permission) {
+          if (permission === "granted") {
+            notificationsEnabled = true;
+            new Notification("¡Notificaciones activadas! Gracias por activar las notificaciones.");
+            document.getElementById('pet-love-question').style.display = 'block'; // Mostrar la pregunta
+            toggleButtons();
+          }
+        });
+      } else {
+        notificationsEnabled = true;
+        new Notification("¡Tienes un gran corazón!"); // Notificación de bienvenida
+        console.log('Notificaciones activadas');
+        toggleButtons();
+        document.getElementById('pet-love-question').style.display = 'block'; // Mostrar la pregunta
+      }
+    });
+
+    // Función para desactivar las notificaciones (simulado)
+    document.getElementById('disable-notifications').addEventListener('click', function () {
+      if (notificationsEnabled) {
+        notificationsEnabled = false;
+        console.log('Notificaciones desactivadas');
+        toggleButtons();
+      }
+    });
+
+    // Función para alternar los botones
+    function toggleButtons() {
+      const enableButton = document.getElementById('enable-notifications');
+      const disableButton = document.getElementById('disable-notifications');
+
+      if (notificationsEnabled) {
+        enableButton.disabled = true;
+        disableButton.disabled = false;
+      } else {
+        enableButton.disabled = false;
+        disableButton.disabled = true;
+      }
+    }
+
+    // Función cuando el usuario dice que le gustan las mascotas
+    document.getElementById('yes-love-pets').addEventListener('click', function () {
+      // Mostrar imagen de mascota (por ejemplo, un perro feliz)
+      document.getElementById('pet-image').src = 'https://example.com/imagen-perro-feliz.jpg'; // Cambia esta URL por la imagen que prefieras
+      document.getElementById('pet-image-container').style.display = 'block'; // Mostrar la imagen
+      new Notification("¡Felicidades! Eres una excelente persona, ¡Las mascotas te lo agradecen! 🐶🐱");
+      console.log('Felicidades, te gustan las mascotas');
+      toggleButtons();
+      document.getElementById('pet-love-question').style.display = 'none'; // Ocultar la pregunta
+    });
+
+    // Función cuando el usuario dice que no le gustan las mascotas
+    document.getElementById('no-love-pets').addEventListener('click', function () {
+      // Mostrar imagen diferente (por ejemplo, un gato indiferente)
+      document.getElementById('pet-image').src = 'https://example.com/imagen-gato-indiferente.jpg'; // Cambia esta URL por la imagen que prefieras
+      document.getElementById('pet-image-container').style.display = 'block'; // Mostrar la imagen
+      new Notification("¡Gracias por activar las notificaciones! No todos somos fans de las mascotas, pero aún así eres genial! 🐾");
+      console.log('No te gustan las mascotas');
+      toggleButtons();
+      document.getElementById('pet-love-question').style.display = 'none'; // Ocultar la pregunta
+    });
+
+    // Inicializar el estado de los botones al cargar la página
+    toggleButtons();
+  </script>
+</body>
+
+</html>
